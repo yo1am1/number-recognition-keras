@@ -44,7 +44,6 @@ def crop_images(path) -> None:
 
             output_image = input_image[y1:y2, x1:x2]
 
-            # Save image
             cv2.imwrite(file_path, output_image)
         except Exception as e:
             print(f"Error processing image: {file_path}")
