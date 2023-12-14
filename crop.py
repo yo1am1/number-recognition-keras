@@ -5,6 +5,11 @@ import numpy as np
 
 
 def crop_images(path) -> None:
+    """
+    Crop images in a given path.
+    :param path:
+    :return None:
+    """
     for file in os.listdir(path):
         file_path = os.path.join(path, file)
 

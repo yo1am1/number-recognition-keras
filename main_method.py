@@ -204,3 +204,16 @@ class Recognizer:
                 print(f"Error processing image: {file_path}")
                 print(e)
         f.close()
+
+
+if __name__ == "__main__":
+    model = RecognitionModel(
+        model_path="multiclass_classification_model.keras",
+        logs=True,
+        tensor=True,
+        to_file=True,
+    )
+
+    recognizer = Recognizer(model=model, crop=True)
+
+    recognizer.recognize("./test_images/")
