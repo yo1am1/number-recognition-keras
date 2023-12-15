@@ -11,7 +11,7 @@ from crop import crop_images
 
 @dataclasses.dataclass(frozen=True)
 class RecognitionModel:
-    model_path: Optional[str]
+    model_path: Optional[str] = "multiclass_classification_model.keras"
 
     input_shape: Optional[tuple] = (28, 28, 1)
     num_classes: Optional[int] = 10
@@ -37,12 +37,25 @@ class RecognitionModel:
 
 
 class Recognizer:
+    """
+    Class for recognizing and processing images.
+    """
+
     def __init__(self, model: RecognitionModel, crop: bool = False):
+        """
+        Initialize Recognizer class.
+        :param model:
+        :param crop:
+        """
         self.__cropped = None
         self.model = model
         self.crop_flag = crop
 
     def train(self) -> None:
+        """
+        Train model with your params.
+        :return None:
+        """
         (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
 
         x_train = x_train.astype("float32") / 255
@@ -132,6 +145,11 @@ class Recognizer:
 
     @staticmethod
     def __load_model_val(model_path: str) -> None:
+        """
+        Load existence validation.
+        :param model_path:
+        :return None:
+        """
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"Path {model_path} does not exist.")
         try:
@@ -141,6 +159,11 @@ class Recognizer:
 
     @staticmethod
     def __image_optimizer(image: np.ndarray) -> np.ndarray:
+        """
+        Optimize image for recognition.
+        :param image:
+        :return test_image:
+        """
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         image_resized = cv2.resize(image, (28, 28), interpolation=cv2.INTER_LINEAR)
         image_resized = cv2.bitwise_not(image_resized)
@@ -150,6 +173,11 @@ class Recognizer:
         return test_image
 
     def crop(self, path: str) -> None:
+        """
+        Crop images in a given path.
+        :param path:
+        :return None:
+        """
         if self.crop_flag:
             try:
                 crop_images(path)
@@ -165,6 +193,11 @@ class Recognizer:
             self.__cropped = False
 
     def recognize(self, path: str) -> None:
+        """
+        Recognize images in a given path.
+        :param path:
+        :return:
+        """
         if not os.path.exists(path):
             raise FileNotFoundError(f"Path {path} does not exist.")
 
@@ -215,5 +248,9 @@ if __name__ == "__main__":
     )
 
     recognizer = Recognizer(model=model, crop=True)
+    print(recognizer)
 
     recognizer.recognize("./test_images/")
+
+    model = RecognitionModel(new_model_name="new_model", logs=True, tensor=True)
+    recognizer.train()
