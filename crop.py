@@ -3,6 +3,10 @@ import os
 import cv2
 import numpy as np
 
+"""
+Module for image cropping. Example
+"""
+
 
 def crop_images(path) -> None:
     """
@@ -53,3 +57,7 @@ def crop_images(path) -> None:
         except Exception as e:
             print(f"Error processing image: {file_path}")
             print(e)
+
+
+if __name__ == "__main__":
+    crop_images("./test_images/")
