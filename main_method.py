@@ -8,9 +8,17 @@ import numpy as np
 
 from crop import crop_images
 
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import matplotlib.patches as patches
+
 
 @dataclasses.dataclass(frozen=True)
 class RecognitionModel:
+    """
+    Class for recognition model.
+    """
+
     model_path: Optional[str] = "multiclass_classification_model.keras"
 
     input_shape: Optional[tuple] = (28, 28, 1)
@@ -23,6 +31,7 @@ class RecognitionModel:
     logs: Optional[bool] = False
     tensor: Optional[bool] = False
     to_file: Optional[bool] = False
+    draw: Optional[bool] = False
 
     new_model_name: Optional[str] = "new_model"
     checkpoint: Optional[bool] = True
@@ -33,6 +42,10 @@ class RecognitionModel:
     validation_split: Optional[float] = 0.2
 
     def __str__(self):
+        """
+        String representation of RecognitionModel class.
+        :return:
+        """
         return f"List of pretrained models: {['multiclass_classification_model.keras']}, RecognitionModel: {self.model_path}, Input shape: {self.input_shape}, Number of classes: {self.num_classes}, Loss: {self.loss}, Metrics: {self.metrics}, Epochs: {self.epochs}, Batch size: {self.batch_size}"
 
 
@@ -229,7 +242,7 @@ class Recognizer:
                     f"File: {file_path}, Prediction: {np.argmax(prediction)}, Reality: {file[-5]}, Probability: {np.max(prediction)}"
                 ) if self.model.logs else None
                 if self.model.to_file:
-                    with open("results.txt", "a") as f:
+                    with open("results.log", "a") as f:
                         f.write(
                             f"File: {file_path}, Prediction: {np.argmax(prediction)}, Reality: {file[-5]}, Probability: {np.max(prediction)}\n"
                         )
