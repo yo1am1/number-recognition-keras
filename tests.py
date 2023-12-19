@@ -2,6 +2,7 @@ import os
 
 import crop
 import main_method
+import tensorflow as tf
 
 
 def test_crop_images():
