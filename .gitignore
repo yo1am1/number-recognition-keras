@@ -163,4 +163,4 @@ cython_debug/
 best_model_first.keras
 
 # temporary workflow ignore
-./.github/workflows/pylint.yml
+.github/workflows/python-app.yml
